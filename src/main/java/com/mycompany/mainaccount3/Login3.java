@@ -3,13 +3,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.mycompany.mainaccount3;
+import java.util.Scanner;
 
 /**
  *
  * @author RC_Student_lab
  */
 public class Login3 {
- 
+   
     // Variables to store the registered username and password
     private String registeredUsername;
     private String registeredPassword;
@@ -68,5 +69,41 @@ public class Login3 {
         // Check if the entered username and password match the stored values
         return registeredUsername != null && registeredPassword != null &&
                registeredUsername.equals(username) && registeredPassword.equals(password);
+    }
+
+    // Method to return the login status message
+    public String returnLoginStatus(boolean isLoggedIn) {
+        if (isLoggedIn) {
+            return "Login successful!";
+        } else {
+            return "Login failed. ";
+        }
+    }
+
+    // Main method to demonstrate functionality
+    public static void main(String[] args) {
+        // Initialize the Scanner for user input
+        Scanner scanner = new Scanner(System.in);
+        Login3 login = new Login3();
+
+        // Register a user
+        System.out.print("Enter a username for registration: ");
+        String username = scanner.nextLine();
+        System.out.print("Enter a password for registration: ");
+        String password = scanner.nextLine();
+        System.out.println(login.registerUser(username, password));
+
+        // Ask for login credentials
+        System.out.print("Enter your username to login: ");
+        String loginUsername = scanner.nextLine();
+        System.out.print("Enter your password to login: ");
+        String loginPassword = scanner.nextLine();
+
+        // Attempt login
+        boolean loginSuccess = login.loginUser(loginUsername, loginPassword);
+        System.out.println(login.returnLoginStatus(loginSuccess));
+
+        // Close the scanner
+        scanner.close();
     }
 }
