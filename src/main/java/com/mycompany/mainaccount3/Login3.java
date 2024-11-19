@@ -9,7 +9,7 @@ package com.mycompany.mainaccount3;
  * @author RC_Student_lab
  */
 public class Login3 {
-    
+ 
     // Variables to store the registered username and password
     private String registeredUsername;
     private String registeredPassword;
@@ -69,33 +69,4 @@ public class Login3 {
         return registeredUsername != null && registeredPassword != null &&
                registeredUsername.equals(username) && registeredPassword.equals(password);
     }
-
-    // Method to return the login status message
-    public String returnLoginStatus(boolean isLoggedIn) {
-        if (isLoggedIn) {
-            return "Login successful!";
-        } else {
-            return "Login failed. Incorrect username or password.";
-        }
-    }
-
-    // Main method to demonstrate functionality (optional for testing)
-    public static void main(String[] args) {
-        Login3 login = new Login3();
-
-        // Register a user
-        System.out.println(login.registerUser("user_1", "Password1@"));
-
-        // Attempt login
-        boolean loginSuccess = login.loginUser("user_1", "Password1@");
-        System.out.println(login.returnLoginStatus(loginSuccess));
-
-        // Failed login example
-        loginSuccess = login.loginUser("user_1", "WrongPassword!");
-        System.out.println(login.returnLoginStatus(loginSuccess));
-    }
 }
-
-
-
-
