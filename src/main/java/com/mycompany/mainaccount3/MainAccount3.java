@@ -9,6 +9,41 @@ import java.util.Scanner;
  * @author RC_Student_lab
  */
 public class MainAccount3 {
+public class UserValidator {
+
+    // Login method to validate username and password
+    public static boolean login(String username, String password) {
+        // Check if username and password match predefined credentials
+        return "correctUsername".equals(username) && "correctPassword".equals(password);
+    }
+
+    // Method to validate the username format
+    public static String validateUsername(String username) {
+        if (username != null && username.contains("_") && username.length() <= 5) {
+            String firstName = "Kyl";  // Example first name
+            String lastName = "1";     // Example last name
+            return "Welcome " + firstName + "," + lastName + " it is great to see you.";  // Success message
+        } else {
+            return "Username is not correctly formatted, please ensure that your username contains an underscore and is no more than 5 characters in length.";
+        }
+    }
+
+    // Method to validate the password complexity
+    public static String validatePassword(String password) {
+        if (password != null 
+            && password.length() >= 8 
+            && password.matches(".*[A-Z].*")  // Contains at least one uppercase letter
+            && password.matches(".*[a-z].*")  // Contains at least one lowercase letter
+            && password.matches(".*\\d.*")    // Contains at least one number
+            && password.matches(".*[!@#$%^&*].*")) {  // Contains at least one special character
+            return "Password successfully captured";
+        }
+        return "Password is not correctly formatted, please ensure that the password contains at least 8 characters, a capital letter, a number and a special character.";
+    }
+}
+
+    
+    
     public static void main(String[] args) {
         // Create scanner
         Scanner scn = new Scanner(System.in);
