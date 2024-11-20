@@ -4,11 +4,16 @@
 
 package com.mycompany.mainaccount3;
 import java.util.Scanner;
+import javax.swing.JOptionPane;
 /**
  *
  * @author RC_Student_lab
  */
 public class MainAccount3 {
+    
+    
+     //declaration
+        String firstName, lastName, username, password;
 public class UserValidator {
 
     // Login method to validate username and password
@@ -99,11 +104,123 @@ public class UserValidator {
             System.out.println("Welcome " + firstName + ", " + lastName + " it is great to see you again.");
         } else {
             System.out.println("Username or password incorrect, please try again.");
-        }
+            
+        
+        
+        
+        
+        {
+   //JOptionPane
+   /*
+   JOptionPane.showMessageDialog(null, "This is a useless title", "Welcome to Kanban", JOptionPane.PLAIN_MESSAGE);*/
+   /*
+     System.out.println(JOptionPane.showConfirmDialog(null, "Menu", "Welcome to Kanban", JOptionPane.YES_NO_CANCEL_OPTION));*/
+   
+   String[] responses = {"1.Add Tasks", "2.Show Report", "3.Quit"};
+   JOptionPane.showOptionDialog(null, "Menu", "Welcome to EasyKanban", 
+           JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, responses, 0);
+     
+    int numberOfTasks = Integer.parseInt(JOptionPane.showInputDialog("How many tasks do you want to enter?"));
+        int taskCounter = Integer.parseInt(JOptionPane.showInputDialog("How many tasks do you want to enter?"));
 
+       
+
+        
+
+
+        while (true) {
+            String option = JOptionPane.showInputDialog("Choose an option:\n1) Add tasks\n2) Show report\n3 Quit");
+            switch (option) {
+                case "1":
+                    if (taskCounter < numberOfTasks) {
+                        
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Task limit reached.");
+                    }
+                    break;
+                case "2":
+                    JOptionPane.showMessageDialog(null, "Coming Soon");
+                    break;
+                case "3":
+                    System.exit(0);
+                default:
+                    JOptionPane.showMessageDialog(null, "Invalid option. Please try again.");
+            }
+       
+
+
+class Task {
+    String name;
+    String description;
+    String developer;
+    double duration;
+    String id;
+    String status;
+
+    // Constructor
+    public Task(String name, String description, String developer, double duration, String status) {
+        this.name = name;
+        this.description = description;
+        this.developer = developer;
+        this.duration = duration;
+        this.status = status;
+        this.id = createTaskID(); // create ID when task is created
     }
 
-    
+    // Method to check if task description is valid
+    public boolean checkTaskDescription() {
+        return description.length() <= 50;
+    }
+
+    // Method to create and return the task ID
+    public String createTaskID() {
+        return name.substring(0, Math.min(2, name.length())).toUpperCase();
+    }
+
+    // Method to print the full task details
+    public String printTaskDetails() {
+        return "Status: " + status +
+               "\nDeveloper: " + developer +
+               "\nTask Name: " + name +
+               "\nDescription: " + description +
+               "\nTask ID: " + id +
+               "\nDuration: " + duration + " hours";
+
+        
+
+    }
+}
+class TaskStatus {
+    public static void main(String[] args) {
+        String[] options = {"To Do", "Done", "Doing"};
+        
+        int choice = JOptionPane.showOptionDialog(null, 
+            "Select Task Status:", 
+            "Task Status Menu", 
+            JOptionPane.DEFAULT_OPTION, 
+            JOptionPane.INFORMATION_MESSAGE, 
+            null, 
+            options, 
+            options[0]);
+
+        if (choice >= 0) {
+            String selectedStatus = options[choice];
+            JOptionPane.showMessageDialog(null, "You selected: " + selectedStatus);
+        } else {
+            JOptionPane.showMessageDialog(null, "No selection made.");
+        }
+    }
+}
+        
+     
+            
+            
+            
+        }
+
+        }
+        }
+    }
     
     
     // Method to check if the username is valid
