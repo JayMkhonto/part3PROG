@@ -40,9 +40,15 @@ public class MainAccount3 {
         }
     }
 
-    // Task menu method
     public static void showMenu() {
         int numberOfTasks = Integer.parseInt(JOptionPane.showInputDialog("How many tasks do you want to enter?"));
+
+        // Initialize arrays
+        String[] taskNames = new String[numberOfTasks];
+        String[] developers = new String[numberOfTasks];
+        double[] durations = new double[numberOfTasks];
+        String[] statuses = new String[numberOfTasks];
+
         int taskCounter = 0;
 
         while (true) {
@@ -53,28 +59,31 @@ public class MainAccount3 {
             switch (choice) {
                 case 0: // Add Task
                     if (taskCounter < numberOfTasks) {
-                        String taskName = JOptionPane.showInputDialog("Enter the task name:");
-                        String taskDescription = JOptionPane.showInputDialog("Enter the task description:");
-                        String developer = JOptionPane.showInputDialog("Enter the developer name:");
-                        double duration = Double.parseDouble(JOptionPane.showInputDialog("Enter the task duration (hours):"));
+                        taskNames[taskCounter] = JOptionPane.showInputDialog("Enter the task name:");
+                        developers[taskCounter] = JOptionPane.showInputDialog("Enter the developer name:");
+                        durations[taskCounter] = Double.parseDouble(JOptionPane.showInputDialog("Enter the task duration (hours):"));
+
                         String[] statusOptions = {"To Do", "Doing", "Done"};
-                        String status = (String) JOptionPane.showInputDialog(null, "Select Task Status:",
+                        statuses[taskCounter] = (String) JOptionPane.showInputDialog(null, "Select Task Status:",
                                 "Task Status", JOptionPane.QUESTION_MESSAGE, null, statusOptions, statusOptions[0]);
 
-                        Task newTask = new Task(taskName, taskDescription, developer, duration, status);
-                        if (!newTask.checkTaskDescription()) {
-                            JOptionPane.showMessageDialog(null, "Task description must be 50 characters or less.");
-                        } else {
-                            taskCounter++;
-                            JOptionPane.showMessageDialog(null, "Task added successfully!\n" + newTask.printTaskDetails());
-                        }
+                        JOptionPane.showMessageDialog(null, "Task added successfully!");
+                        taskCounter++;
                     } else {
                         JOptionPane.showMessageDialog(null, "Task limit reached.");
                     }
                     break;
 
                 case 1: // Show Report
-                    JOptionPane.showMessageDialog(null, "Report feature coming soon!");
+                    StringBuilder report = new StringBuilder("Task Report:\n");
+                    for (int i = 0; i < taskCounter; i++) {
+                        report.append("Task ").append(i + 1).append(":\n")
+                              .append("Name: ").append(taskNames[i]).append("\n")
+                              .append("Developer: ").append(developers[i]).append("\n")
+                              .append("Duration: ").append(durations[i]).append(" hours\n")
+                              .append("Status: ").append(statuses[i]).append("\n\n");
+                    }
+                    JOptionPane.showMessageDialog(null, report.toString());
                     break;
 
                 case 2: // Quit
@@ -88,42 +97,6 @@ public class MainAccount3 {
         }
     }
 
-    // Task class
-    static class Task {
-        String name;
-        String description;
-        String developer;
-        double duration;
-        String id;
-        String status;
-
-        public Task(String name, String description, String developer, double duration, String status) {
-            this.name = name;
-            this.description = description;
-            this.developer = developer;
-            this.duration = duration;
-            this.status = status;
-            this.id = createTaskID();
-        }
-
-        public boolean checkTaskDescription() {
-            return description.length() <= 50;
-        }
-
-        public String createTaskID() {
-            return name.substring(0, Math.min(2, name.length())).toUpperCase() + ":" + developer.substring(developer.length() - 3).toUpperCase();
-        }
-
-        public String printTaskDetails() {
-            return "Status: " + status +
-                   "\nDeveloper: " + developer +
-                   "\nTask Name: " + name +
-                   "\nDescription: " + description +
-                   "\nTask ID: " + id +
-                   "\nDuration: " + duration + " hours";
-        }
-    }
-
     // Username validation
     public static boolean isUsernameValid(String username) {
         return username.contains("_") && username.length() <= 5;
@@ -131,11 +104,9 @@ public class MainAccount3 {
 
     // Password validation
     public static boolean isPasswordValid(String password) {
-        return password.length() >= 8 && 
+        return password.length() >= 8 &&
                password.matches(".*[A-Z].*") &&
                password.matches(".*\\d.*") &&
                password.matches(".*[!@#$%^&*].*");
     }
 }
-
-
