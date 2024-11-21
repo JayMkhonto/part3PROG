@@ -45,7 +45,58 @@ public class MainAccount3 {
         } else {
             JOptionPane.showMessageDialog(null, "Username or password incorrect, please try again.");
         }
-    }
+        
+  
+        
+        
+        
+        
+        
+      
+    // Define the size of initial test data
+    int testDataCount = 3;
+    taskNames = new String[testDataCount];
+    developers = new String[testDataCount];
+    durations = new double[testDataCount];
+    statuses = new String[testDataCount];
+    tasks = new Task[testDataCount];
+
+    // Populate test data
+    taskNames[0] = "Create Login";
+    developers[0] = "Mike Smith";
+    durations[0] = 5;
+    statuses[0] = "To Do";
+    tasks[0] = new Task(taskNames[0], "Create a login system", developers[0], durations[0], statuses[0]);
+
+    taskNames[1] = "Create Add Features";
+    developers[1] = "Edward Harrison";
+    durations[1] = 8;
+    statuses[1] = "Doing";
+    tasks[1] = new Task(taskNames[1], "Add task functionality", developers[1], durations[1], statuses[1]);
+
+    taskNames[2] = "Create Reports";
+    developers[2] = "Samantha Paulson";
+    durations[2] = 2;
+    statuses[2] = "Done";
+    tasks[2] = new Task(taskNames[2], "Testing all modules", developers[2], durations[2], statuses[2]);
+    
+    taskNames[3] = "Add Arrays";
+    developers[3] = "Glenda Oberholzer";
+    durations[3] = 9;
+    statuses[3] = "Doing";
+    tasks[3] = new Task(taskNames[1], "Add task functionality", developers[1], durations[1], statuses[1]);
+    
+    
+    
+}
+
+
+        
+        
+        
+        
+        
+    
 
     // Task menu method
     public static void showMenu() {
@@ -56,6 +107,9 @@ public class MainAccount3 {
         statuses = new String[numberOfTasks];
         tasks = new Task[numberOfTasks]; // Initialize the tasks array
 
+        
+        
+        
         int taskCounter = 0;
 
         while (true) {
