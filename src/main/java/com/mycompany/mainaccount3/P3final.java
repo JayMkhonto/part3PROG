@@ -10,6 +10,7 @@ import javax.swing.JOptionPane;
  * @author RC_Student_lab
  */
 public class P3final {
+    
     public static void main(String[] args) {
         // Prompt user for the number of tasks
         int taskCount = Integer.parseInt(JOptionPane.showInputDialog("Enter the number of tasks:"));
@@ -49,4 +50,5 @@ public class P3final {
         }
         JOptionPane.showMessageDialog(null, taskReport.toString());
     }
+}
 }
