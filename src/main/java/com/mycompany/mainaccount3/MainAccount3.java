@@ -59,7 +59,16 @@ public class MainAccount3 {
         int taskCounter = 0;
 
         while (true) {
-            String[] options = {"Add Task", "Show Report", "Quit"};
+            String[] options = {
+                "Add Task", 
+                "Show Report", 
+                "Display Tasks with Status Done", 
+                "Display Task with Longest Duration", 
+                "Search Task by Name", 
+                "Search Tasks by Developer", 
+                "Delete Task by Name", 
+                "Quit"
+            };
             int choice = JOptionPane.showOptionDialog(null, "Menu", "Welcome to EasyKanban",
                     JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
 
@@ -104,7 +113,91 @@ public class MainAccount3 {
                     JOptionPane.showMessageDialog(null, taskReport.toString());
                     break;
 
-                case 2: // Quit
+                case 2: // Display Tasks with Status "Done"
+                    StringBuilder doneTasks = new StringBuilder("Tasks with status 'Done':\n");
+                    for (int i = 0; i < taskCounter; i++) {
+                        if (statuses[i].equals("Done")) {
+                            doneTasks.append("Task Name: ").append(taskNames[i])
+                                     .append(", Developer: ").append(developers[i])
+                                     .append(", Duration: ").append(durations[i]).append(" hours\n");
+                        }
+                    }
+                    JOptionPane.showMessageDialog(null, doneTasks.length() > 0 ? doneTasks.toString() : "No tasks with 'Done' status.");
+                    break;
+
+                case 3: // Display Task with Longest Duration
+                    double longestDuration = 0;
+                    int longestIndex = -1;
+                    for (int i = 0; i < taskCounter; i++) {
+                        if (durations[i] > longestDuration) {
+                            longestDuration = durations[i];
+                            longestIndex = i;
+                        }
+                    }
+                    if (longestIndex != -1) {
+                        JOptionPane.showMessageDialog(null, "Task with Longest Duration:\n" +
+                                "Task Name: " + taskNames[longestIndex] + "\n" +
+                                "Developer: " + developers[longestIndex] + "\n" +
+                                "Duration: " + durations[longestIndex] + " hours");
+                    }
+                    break;
+
+                case 4: // Search Task by Name
+                    String searchName = JOptionPane.showInputDialog("Enter task name to search:");
+                    boolean found = false;
+                    for (int i = 0; i < taskCounter; i++) {
+                        if (taskNames[i].equalsIgnoreCase(searchName)) {
+                            JOptionPane.showMessageDialog(null, "Task Found:\n" +
+                                    "Task Name: " + taskNames[i] + "\n" +
+                                    "Developer: " + developers[i] + "\n" +
+                                    "Status: " + statuses[i]);
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (!found) {
+                        JOptionPane.showMessageDialog(null, "Task not found.");
+                    }
+                    break;
+
+                case 5: // Search Tasks by Developer
+                    String searchDeveloper = JOptionPane.showInputDialog("Enter developer name to search:");
+                    StringBuilder developerTasks = new StringBuilder("Tasks assigned to " + searchDeveloper + ":\n");
+                    found = false;
+                    for (int i = 0; i < taskCounter; i++) {
+                        if (developers[i].equalsIgnoreCase(searchDeveloper)) {
+                            developerTasks.append("Task Name: ").append(taskNames[i])
+                                          .append(", Status: ").append(statuses[i]).append("\n");
+                            found = true;
+                        }
+                    }
+                    JOptionPane.showMessageDialog(null, found ? developerTasks.toString() : "No tasks found for this developer.");
+                    break;
+
+                case 6: // Delete Task by Name
+                    String deleteName = JOptionPane.showInputDialog("Enter task name to delete:");
+                    found = false;
+                    for (int i = 0; i < taskCounter; i++) {
+                        if (taskNames[i].equalsIgnoreCase(deleteName)) {
+                            // Shift all tasks after the deleted task left
+                            for (int j = i; j < taskCounter - 1; j++) {
+                                taskNames[j] = taskNames[j + 1];
+                                developers[j] = developers[j + 1];
+                                durations[j] = durations[j + 1];
+                                statuses[j] = statuses[j + 1];
+                            }
+                            taskCounter--;
+                            JOptionPane.showMessageDialog(null, "Task deleted successfully.");
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (!found) {
+                        JOptionPane.showMessageDialog(null, "Task not found.");
+                    }
+                    break;
+
+                case 7: // Quit
                     JOptionPane.showMessageDialog(null, "Exiting program.");
                     System.exit(0);
                     break;
