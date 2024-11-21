@@ -10,6 +10,13 @@ import javax.swing.JOptionPane;
  * @author RC_Student_lab
  */
 public class MainAccount3 {
+    // Arrays to store task information
+    static String[] taskNames;
+    static String[] developers;
+    static double[] durations;
+    static String[] statuses;
+    static Task[] tasks; // Array to hold Task objects
+
     public static void main(String[] args) {
         // Account creation logic
         String username = JOptionPane.showInputDialog("Enter your username:");
@@ -43,15 +50,13 @@ public class MainAccount3 {
     // Task menu method
     public static void showMenu() {
         int numberOfTasks = Integer.parseInt(JOptionPane.showInputDialog("How many tasks do you want to enter?"));
-        int taskCounter = 0;
+        taskNames = new String[numberOfTasks];
+        developers = new String[numberOfTasks];
+        durations = new double[numberOfTasks];
+        statuses = new String[numberOfTasks];
+        tasks = new Task[numberOfTasks]; // Initialize the tasks array
 
-        // Arrays for storing task information
-        String[] taskNames = new String[numberOfTasks];
-        String[] developers = new String[numberOfTasks];
-        String[] taskDescriptions = new String[numberOfTasks];
-        String[] statuses = new String[numberOfTasks];
-        String[] taskIDs = new String[numberOfTasks];
-        double[] durations = new double[numberOfTasks];
+        int taskCounter = 0;
 
         while (true) {
             String[] options = {"Add Task", "Show Report", "Quit"};
@@ -61,38 +66,40 @@ public class MainAccount3 {
             switch (choice) {
                 case 0: // Add Task
                     if (taskCounter < numberOfTasks) {
-                        taskNames[taskCounter] = JOptionPane.showInputDialog("Enter the task name:");
-                        taskDescriptions[taskCounter] = JOptionPane.showInputDialog("Enter the task description:");
-                        developers[taskCounter] = JOptionPane.showInputDialog("Enter the developer name:");
-                        durations[taskCounter] = Double.parseDouble(JOptionPane.showInputDialog("Enter the task duration (hours):"));
-
+                        String taskName = JOptionPane.showInputDialog("Enter the task name:");
+                        String taskDescription = JOptionPane.showInputDialog("Enter the task description:");
+                        String developer = JOptionPane.showInputDialog("Enter the developer name:");
+                        double duration = Double.parseDouble(JOptionPane.showInputDialog("Enter the task duration (hours):"));
                         String[] statusOptions = {"To Do", "Doing", "Done"};
-                        statuses[taskCounter] = (String) JOptionPane.showInputDialog(null, "Select Task Status:",
+                        String status = (String) JOptionPane.showInputDialog(null, "Select Task Status:",
                                 "Task Status", JOptionPane.QUESTION_MESSAGE, null, statusOptions, statusOptions[0]);
 
-                        // Generate Task ID
-                        taskIDs[taskCounter] = taskNames[taskCounter].substring(0, Math.min(2, taskNames[taskCounter].length())).toUpperCase() + ":" + developers[taskCounter].substring(developers[taskCounter].length() - 3).toUpperCase();
+                        Task newTask = new Task(taskName, taskDescription, developer, duration, status);
 
-                        // Increment task counter
-                        taskCounter++;
-
-                        JOptionPane.showMessageDialog(null, "Task added successfully!");
+                        if (!newTask.checkTaskDescription()) {
+                            JOptionPane.showMessageDialog(null, "Task description must be 50 characters or less.");
+                        } else {
+                            tasks[taskCounter] = newTask; // Store task in the tasks array
+                            taskNames[taskCounter] = taskName; // Store task name
+                            developers[taskCounter] = developer; // Store developer
+                            durations[taskCounter] = duration; // Store duration
+                            statuses[taskCounter] = status; // Store status
+                            taskCounter++;
+                            JOptionPane.showMessageDialog(null, "Task added successfully!\n" + newTask.printTaskDetails());
+                        }
                     } else {
                         JOptionPane.showMessageDialog(null, "Task limit reached.");
                     }
                     break;
 
                 case 1: // Show Report
-                    // Show all tasks
                     StringBuilder taskReport = new StringBuilder("Task Report:\n");
                     for (int i = 0; i < taskCounter; i++) {
                         taskReport.append("Task ").append(i + 1).append(":\n")
                                   .append("Name: ").append(taskNames[i]).append("\n")
                                   .append("Developer: ").append(developers[i]).append("\n")
                                   .append("Duration: ").append(durations[i]).append(" hours\n")
-                                  .append("Status: ").append(statuses[i]).append("\n")
-                                  .append("Task ID: ").append(taskIDs[i]).append("\n")
-                                  .append("Description: ").append(taskDescriptions[i]).append("\n\n");
+                                  .append("Status: ").append(statuses[i]).append("\n\n");
                     }
                     JOptionPane.showMessageDialog(null, taskReport.toString());
                     break;
@@ -105,6 +112,55 @@ public class MainAccount3 {
                 default:
                     JOptionPane.showMessageDialog(null, "Invalid option. Please try again.");
             }
+        }
+    }
+
+    // Task class
+    static class Task {
+        private String taskName;
+        private String taskDescription;
+        private String developer;
+        private double duration;
+        private String status;
+
+        // Constructor
+        public Task(String taskName, String taskDescription, String developer, double duration, String status) {
+            this.taskName = taskName;
+            this.taskDescription = taskDescription;
+            this.developer = developer;
+            this.duration = duration;
+            this.status = status;
+        }
+
+        // Check if the task description is valid (<= 50 characters)
+        public boolean checkTaskDescription() {
+            return this.taskDescription.length() <= 50;
+        }
+
+        // Print the details of the task
+        public String printTaskDetails() {
+            return "Task Name: " + this.taskName + "\n" +
+                   "Developer: " + this.developer + "\n" +
+                   "Duration: " + this.duration + " hours\n" +
+                   "Status: " + this.status + "\n" +
+                   "Description: " + this.taskDescription;
+        }
+
+        // Getters for the Task properties
+        public String getTaskName() {
+            return taskName;
+        }
+
+        public String getDeveloper() {
+            return developer;
+        }
+
+        public double getDuration() {
+            return duration;
+        }
+
+        public String getStatus() {
+            return status;
         }
     }
 
