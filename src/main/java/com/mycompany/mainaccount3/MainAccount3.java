@@ -40,16 +40,18 @@ public class MainAccount3 {
         }
     }
 
+    // Task menu method
     public static void showMenu() {
         int numberOfTasks = Integer.parseInt(JOptionPane.showInputDialog("How many tasks do you want to enter?"));
+        int taskCounter = 0;
 
-        // Initialize arrays
+        // Arrays for storing task information
         String[] taskNames = new String[numberOfTasks];
         String[] developers = new String[numberOfTasks];
-        double[] durations = new double[numberOfTasks];
+        String[] taskDescriptions = new String[numberOfTasks];
         String[] statuses = new String[numberOfTasks];
-
-        int taskCounter = 0;
+        String[] taskIDs = new String[numberOfTasks];
+        double[] durations = new double[numberOfTasks];
 
         while (true) {
             String[] options = {"Add Task", "Show Report", "Quit"};
@@ -60,6 +62,7 @@ public class MainAccount3 {
                 case 0: // Add Task
                     if (taskCounter < numberOfTasks) {
                         taskNames[taskCounter] = JOptionPane.showInputDialog("Enter the task name:");
+                        taskDescriptions[taskCounter] = JOptionPane.showInputDialog("Enter the task description:");
                         developers[taskCounter] = JOptionPane.showInputDialog("Enter the developer name:");
                         durations[taskCounter] = Double.parseDouble(JOptionPane.showInputDialog("Enter the task duration (hours):"));
 
@@ -67,23 +70,31 @@ public class MainAccount3 {
                         statuses[taskCounter] = (String) JOptionPane.showInputDialog(null, "Select Task Status:",
                                 "Task Status", JOptionPane.QUESTION_MESSAGE, null, statusOptions, statusOptions[0]);
 
-                        JOptionPane.showMessageDialog(null, "Task added successfully!");
+                        // Generate Task ID
+                        taskIDs[taskCounter] = taskNames[taskCounter].substring(0, Math.min(2, taskNames[taskCounter].length())).toUpperCase() + ":" + developers[taskCounter].substring(developers[taskCounter].length() - 3).toUpperCase();
+
+                        // Increment task counter
                         taskCounter++;
+
+                        JOptionPane.showMessageDialog(null, "Task added successfully!");
                     } else {
                         JOptionPane.showMessageDialog(null, "Task limit reached.");
                     }
                     break;
 
                 case 1: // Show Report
-                    StringBuilder report = new StringBuilder("Task Report:\n");
+                    // Show all tasks
+                    StringBuilder taskReport = new StringBuilder("Task Report:\n");
                     for (int i = 0; i < taskCounter; i++) {
-                        report.append("Task ").append(i + 1).append(":\n")
-                              .append("Name: ").append(taskNames[i]).append("\n")
-                              .append("Developer: ").append(developers[i]).append("\n")
-                              .append("Duration: ").append(durations[i]).append(" hours\n")
-                              .append("Status: ").append(statuses[i]).append("\n\n");
+                        taskReport.append("Task ").append(i + 1).append(":\n")
+                                  .append("Name: ").append(taskNames[i]).append("\n")
+                                  .append("Developer: ").append(developers[i]).append("\n")
+                                  .append("Duration: ").append(durations[i]).append(" hours\n")
+                                  .append("Status: ").append(statuses[i]).append("\n")
+                                  .append("Task ID: ").append(taskIDs[i]).append("\n")
+                                  .append("Description: ").append(taskDescriptions[i]).append("\n\n");
                     }
-                    JOptionPane.showMessageDialog(null, report.toString());
+                    JOptionPane.showMessageDialog(null, taskReport.toString());
                     break;
 
                 case 2: // Quit
@@ -104,7 +115,7 @@ public class MainAccount3 {
 
     // Password validation
     public static boolean isPasswordValid(String password) {
-        return password.length() >= 8 &&
+        return password.length() >= 8 && 
                password.matches(".*[A-Z].*") &&
                password.matches(".*\\d.*") &&
                password.matches(".*[!@#$%^&*].*");
